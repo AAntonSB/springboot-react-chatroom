@@ -16,15 +16,11 @@ Spring boot configurations to configure websocket connection with STOMP and sock
 
 Spring Boot Setup Prerequisites 
 ======================
- JDK 8
- 
- Spring Boot
- 
- STS or Eclipse  
- 
- Tomcat(embedded with Spring) 
- 
- Maven
+ * JDK 8
+ * Spring Boot
+ * STS or Eclipse  
+ * Tomcat(embedded with Spring) 
+ * Maven
 
 
 Client Configuration: 
