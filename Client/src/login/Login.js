@@ -18,9 +18,8 @@ export default class Login extends Component
         });
       };
 
-      handleConnect = () => {
-  
-        this.props.connect(this.state.username)
+    handleConnectPublicly = () => {
+        this.props.connect(this.state.username, false)
       }
     
     render(){
@@ -34,7 +33,7 @@ export default class Login extends Component
                 margin="normal"
               />
               <br />
-              <Button variant="contained" color="primary" onClick={this.handleConnect} >
+              <Button variant="contained" color="primary" onClick={this.handleConnectPublicly} >
                 Start Chatting
              </Button>
 

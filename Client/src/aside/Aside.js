@@ -2,26 +2,33 @@ import React, { Component } from 'react';
 import './Aside.css'
 import userImage from '../userImage.png';
 import TextField from '@material-ui/core/TextField';
+import PrivateMessageBoxx from '../PrivateMessageBox/PrivateMessageBox'
 export default class Aside extends Component {
 
     constructor(props) {
         super(props);
         this.state =
             {
-                openNotifications: false,
-                roomNotification: this.props.roomNotification
+                openPrivateBox: false,
+                roomNotification: this.props.roomNotification,
+                yousername: this.props.username,
+                otherUser:''
+        
             };
     }
 
-    openUserNotifications = () => {
+    handleClosePrivateBox = () => {
         this.setState({
-            openNotifications: true
+            openPrivateBox: false
         })
     }
 
-    handleCloseNotifications = () => {
+    handleOpenPrivateBox = (e) => {
+        let otherUser = e.currentTarget.dataset.value;
+    
         this.setState({
-            openNotifications: false
+            openPrivateBox: true,
+            otherUser:otherUser
         })
     }
 
@@ -65,21 +72,40 @@ export default class Aside extends Component {
                 />
                 <ul >
                     {this.state.roomNotification.map((notification, i) =>
-                        <li key={i}>
-                            <img src={userImage} alt="Default-User" id="userImage" />
-                            <div>
-                                <div><h2 style={{ textAlign: "left", float: "left" }}>{notification.sender.split('~')[0]}</h2>
-                                </div>
-                                <br />
-                                <h3>
-                                    {notification.status === 'online' || notification.status === 'typing...' ? <span className="status green"></span> : <span className="status orange"></span>}
-                                    {notification.status}
-                                </h3>
-                            </div>
-                        </li>
-                    )} </ul>
-            </aside>
 
+
+                        this.state.yousername.toLowerCase().trim() === notification.sender.split('~')[0].toLowerCase().trim()
+                            ? ""
+                            : <a href = "#"><li key={i} onClick={this.handleOpenPrivateBox} data-value={notification.sender.split('~')[0].toLowerCase().trim()}>
+
+                                <img src={userImage} alt="Default-User" id="userImage" />
+
+                                <div>
+                                    <div>
+                                        <h2 style={{ textAlign: "left", float: "left" }}>{notification.sender.split('~')[0]}</h2>
+
+                                    </div>
+                                    <br />
+                                    <h3>
+                                        {notification.status === 'online' || notification.status === 'typing...' ? <span className="status green"></span> : <span className="status orange"></span>}
+                                        {notification.status}
+                                    </h3>
+
+                                    {/* <h3>
+                                        <a href="#" style={{ textDecoration: "none", color: "mediumpurple" }}
+                                            onClick={this.handleOpenPrivateBox}>Private message</a>
+                                    </h3> */}
+                                </div>
+                            </li></a>
+                    )} </ul>
+
+                {this.state.openPrivateBox ?
+
+                    <PrivateMessageBoxx open={this.state.openPrivateBox} handleClose={this.handleClosePrivateBox}
+                        notifications={this.props.roomNotification} youser={this.state.yousername} otherUser = {this.state.otherUser} />
+                : ""}
+
+            </aside>
         )
     }
 }

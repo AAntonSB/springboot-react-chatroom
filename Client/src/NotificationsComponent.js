@@ -16,7 +16,6 @@ export default class NotificationsComponent extends Component {
         };
     };
 
-
     render() {
 
         return <div>
@@ -25,17 +24,18 @@ export default class NotificationsComponent extends Component {
                 open={this.props.open}
                 onClose={this.props.handleClose}
                 aria-labelledby="responsive-dialog-title"
-                onEscapeKeyDown= {this.props.handleClose}
+                onEscapeKeyDown={this.props.handleClose}
                 autoScrollBodyContent={true}
-	
+
             >
-                <DialogTitle id="responsive-dialog-title">{"Notifications"}</DialogTitle>
+               {this.props.isPrivateMessage? <DialogTitle id="responsive-dialog-title">{"Private Messages"}</DialogTitle>:
+               <DialogTitle id="responsive-dialog-title">{"Group Notifications"}</DialogTitle>}
                 <DialogContent>
-                    <DialogContentText>
+                   {!this.props.isPrivateMessage ?<DialogContentText>
                         <div>
                             <h3>Total messages in the room: {this.props.roomMessages.length}</h3>
                         </div>
-                        <br/>
+                        <br />
                         {this.props.notifications.map((notification, i) =>
 
                             [<div key={i}>
@@ -54,8 +54,17 @@ export default class NotificationsComponent extends Component {
                             <hr />
                             ]
                         )}
+                       
                     </DialogContentText>
 
+                    :<DialogContentText>
+                    <br />
+                        {this.props.privateMessages.map((msg, i) =>
+                            <div><h3>{msg.sender}</h3>{msg.message}
+                            </div>
+                         )}
+                    </DialogContentText>
+                   }
                 </DialogContent>
 
                 <DialogActions>

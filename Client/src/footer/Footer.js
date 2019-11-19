@@ -7,8 +7,7 @@ export default class Footer extends Component {
         super(props);
         this.state =
             {
-                chatMessage: ''
-
+                chatMessage: '',
             };
     }
 
@@ -30,30 +29,40 @@ export default class Footer extends Component {
 
     };
 
-
     render() {
         return (
-            
-                <div className="footerComponent">
-                    <TextField
-                        id="msg"
-                        label="Press enter to send"
-                        placeholder="Type your message here..."
-                        onChange={this.handleTyping}
-                        margin="normal"
-                        value={this.state.chatMessage}
-                        fullWidth={true}
-                        onKeyPress={event => {
-                            if (event.key === 'Enter') {
-                                this.handleSendMessage();
-                            }
-                        }}
-                    />
-
-
-                </div>
-
-            
+            <div>
+                {this.props.privateMessage?
+                <div className="footerComponent-private">
+                <TextField
+                    id="msg"
+                    label="Type your message here..."
+                    placeholder="Press enter to send message"
+                    onChange={this.handleTyping}
+                    margin="normal"
+                    value={this.state.chatMessage}
+                    onKeyPress={event => {
+                        if (event.key === 'Enter') {
+                            this.handleSendMessage();
+                        }
+                    }}
+                />
+            </div>:<div className="footerComponent">
+                <TextField
+                    id="msg"
+                    label="Type your message here..."
+                    placeholder="Press enter to send message"
+                    onChange={this.handleTyping}
+                    margin="normal"
+                    value={this.state.chatMessage}
+                    onKeyPress={event => {
+                        if (event.key === 'Enter') {
+                            this.handleSendMessage();
+                        }
+                    }}
+                />
+            </div>} 
+            </div>
         )
     }
 }

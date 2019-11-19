@@ -1,19 +1,19 @@
 import React, { Component } from 'react';
 
-import Menu from './menu-app-bar/MenuAppBar'
-import Aside from './aside/Aside'
-import Login from './login/Login'
-import Footer from './footer/Footer'
+import Menu from '../menu-app-bar/MenuAppBar'
+import Aside from '../aside/Aside'
+import Login from '../login/Login'
+import Footer from '../footer/Footer'
 
 // Styling
-import './ChatBox.css';
+import './ChatMessageBox.css';
 // Default user image
-import userImage from './userImage.png';
+import userImage from '../userImage.png';
 // import backToTop from './backToTop.png';
 
 var stompClient = null;
+class ChatMessageBox extends Component {
 
-export default class ChatBoxComponent extends Component {
   constructor(props) {
     super(props);
     this.state =
@@ -35,10 +35,6 @@ export default class ChatBoxComponent extends Component {
 
     if (userName) {
 
-      this.setState({
-        username: userName
-      })
-
       const Stomp = require('stompjs')
 
       var SockJS = require('sockjs-client')
@@ -49,6 +45,9 @@ export default class ChatBoxComponent extends Component {
 
       stompClient.connect({}, this.onConnected, this.onError);
 
+      this.setState({
+        username: userName,
+      })
     }
   }
 
@@ -59,19 +58,11 @@ export default class ChatBoxComponent extends Component {
     })
 
     // Subscribing to the public topic
-    stompClient.subscribe('/topic/public', this.onMessageReceived);
+    stompClient.subscribe('/topic/pubic', this.onMessageReceived);
+    
+    // Registering user to server as a public chat user
+    stompClient.send("/app/addUser", {}, JSON.stringify({ sender: this.state.username, type: 'JOIN' }))
 
-    // Registering user to server
-    stompClient.send("/app/addUser",
-      {},
-      JSON.stringify({ sender: this.state.username, type: 'JOIN' })
-    )
-  }
-
-  onError = (error) => {
-    this.setState({
-      error: 'Could not connect you to the Chat Room Server. Please refresh this page and try again!'
-    })
   }
 
   sendMessage = (type, value) => {
@@ -83,11 +74,8 @@ export default class ChatBoxComponent extends Component {
         type: type
 
       };
-
+      // send public message
       stompClient.send("/app/sendMessage", {}, JSON.stringify(chatMessage));
-
-      // clear message text box after sending the message
-
     }
   }
 
@@ -98,7 +86,6 @@ export default class ChatBoxComponent extends Component {
     if (message.type === 'JOIN') {
 
       this.state.roomNotification.push({ 'sender': message.sender + " ~ joined", 'status': 'online', 'dateTime': message.dateTime })
-
       this.setState({
         roomNotification: this.state.roomNotification,
         bellRing: true
@@ -155,6 +142,12 @@ export default class ChatBoxComponent extends Component {
     }
   }
 
+  onError = (error) => {
+    this.setState({
+      error: 'Could not connect you to the Chat Room Server. Please refresh this page and try again!'
+    })
+  }
+
   fetchHostory = () => {
     alert('History Not Available!\nIt is Not Yet Implemented!');
   }
@@ -202,23 +195,20 @@ export default class ChatBoxComponent extends Component {
       <div id="container">
         {this.state.channelConnected ?
           (
-
-
             <div>
               <Menu roomNotification={this.state.roomNotification}
                 bellRing={this.state.bellRing}
                 openNotifications={this.state.openNotifications}
                 username={this.state.username}
-                broadcastMessage={this.state.broadcastMessage}/>
-                
-              <Aside  roomNotification={this.state.roomNotification}
-                bellRing={this.state.bellRing}
+                broadcastMessage={this.state.broadcastMessage} />
+
+              <Aside roomNotification={this.state.roomNotification}
                 openNotifications={this.state.openNotifications}
                 username={this.state.username}
                 broadcastMessage={this.state.broadcastMessage} />
-             
-              
-              <ul id="chat"  ref="messageBox">
+
+
+              <ul id="chat" ref="messageBox">
                 {/* {this.state.broadcastMessage.length ?
                   [<div id="history"><div id="old" onClick={this.fetchHostory}>Older</div><hr /><div id="today">Today</div></div>] : ""} */}
                 {this.state.broadcastMessage.map((msg, i) =>
@@ -227,7 +217,7 @@ export default class ChatBoxComponent extends Component {
                       <div className="entete">
                         <h2><img src={userImage} alt="Default-User" className="avatar" />
                           <span> </span>
-                         <span className="sender"> {msg.sender} ~ (You)</span></h2>
+                          <span className="sender"> {msg.sender} ~ (You)</span></h2>
                         <span> </span>
                         {/* <span className="status green"></span> */}
                       </div>
@@ -253,19 +243,21 @@ export default class ChatBoxComponent extends Component {
                       <div><h3>{msg.dateTime}</h3></div>
                     </li>
                 )}
-
               </ul>
-              <div></div>
-               <Footer sendMessage={this.sendMessage}/>
+              <Footer sendMessage={this.sendMessage} privateMessage={false} />
+
             </div>
-         
+
 
           ) : (
             <Login connect={this.connect} />
-            
+
           )
         }
       </div>
     )
   }
+
 }
+
+export default ChatMessageBox;
