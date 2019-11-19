@@ -2,32 +2,17 @@
  Using Spring Boot with WebSocket API  and React with Material-UI to build a simple group and private chat application
  
  Features
- ================
- 
- * User login/logout
- * Push notifications
- * Group chat
- * Private messaging
- 
+===============
+* User login/logout
+* Group chat  
+* Private messaging
+* Presence tracking and push notifications when users join / leave / send messages
+
+
  Server Configuration: 
  ========================
 Spring boot configurations to configure websocket connection with STOMP and sockJS
  
- WebSocket 
- ============
- WebSocket is a communication protocol that makes it possible to establish a two-way communication channel between a server and a  client.
- WebSocket works by first establishing a regular HTTP connection with the server and then upgrading it to a bidirectional websocket       connection by sending an Upgrade header.
- 
- WebSocket Configuration
- ==========================
- * The first step is to configure the websocket endpoint and message broker for which <code>@EnableWebSocketMessageBroker</code> is used to enable our WebSocket server. I have implemented <code>WebSocketMessageBrokerConfigurer</code> interface and provide implementation for some of its methods to configure the websocket connection.
- * SockJS has been used to enable fallback options for browsers that don’t support websocket.
- *  Spring frameworks STOMP implementation has been used. STOMP stands for Simple Text Oriented Messaging Protocol. It is a messaging    protocol that defines the format and rules for data exchange because WebSocket is just a communication protocol. It doesn’t define things like - How to send a message only to users who are subscribed to a particular topic, or how to send a message to a particular user. We need STOMP for these functionalities.
- * A message broker has been configured that will be used to route messages from one client to another.I have enabled a simple in-memory  message broker. But you’re free to use any other full-featured message broker like RabbitMQ or ActiveMQ.
- 
-WebSocket Event Listeners
-============================
-I have used event listeners to listen for socket connect and disconnect events so that we can log these events and also broadcast them when a user joins or leaves the chat room.
 
 Spring Boot Setup Prerequisites 
 ======================
@@ -47,11 +32,8 @@ Client Configuration:
 The front end of the application has been developed using react js components.
 
 * The connect() function uses SockJS and stomp client to connect to the /ws endpoint that we configured in Spring Boot.
-
 * Upon successful connection, the client subscribes to /topic/public destination and tells the user’s name to the server by sending a    message to the /app/addUser destination.
-
 * The stompClient.subscribe() function takes a callback method which is called whenever a message arrives on the subscribed topic.
-
 * Rest of the code is used to display and format the messages on the screen.
 
 React Setup Prerequisites and Dependencies
@@ -69,15 +51,6 @@ Setting up the proxy
 To have the Webpack development server proxy our requests to our Server, we just need to add the following line to package.json:
 
 <code>"proxy": "http://localhost:8080/", </code>
-
-Features
-===============
-* Built with Spring Boot and Reactjs
-* User login
-* Chat message broadcasting (no private message and chat history support for now, I may implement it later in free time)
-* Presence tracking and sending notifications when users join / leave
-* Broadcast notifications when users are typing
-
 
 Finally
 =============
