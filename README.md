@@ -11,17 +11,15 @@
 
 Notes
 ==========
-* Chat messages are NOT persisted to the database. I would add that functionality later.
+* Chat messages are NOT persisted to the database. I would add that functionality later when the time permits.
 * Message Broker: In-memory 
 * WebSocket messaging protocol: Stomp
 * WebSocket handler: Sock.js 
-
 
  Server Configuration: 
  ========================
 Spring boot configurations to configure websocket connection with STOMP and sockJS
  
-
 Spring Boot Setup Prerequisites 
 ======================
  * JDK 8
@@ -30,15 +28,9 @@ Spring Boot Setup Prerequisites
  * Tomcat(embedded with Spring) 
  * Maven
 
-
 Client Configuration: 
 ========================
 The front end of the application has been developed using react js components.
-
-* The connect() function uses SockJS and stomp client to connect to the /ws endpoint that we configured in Spring Boot.
-* Upon successful connection, the client subscribes to /topic/public destination and tells the user’s name to the server by sending a    message to the /app/addUser destination.
-* The stompClient.subscribe() function takes a callback method which is called whenever a message arrives on the subscribed topic.
-* Rest of the code is used to display and format the messages on the screen.
 
 React Setup Prerequisites and Dependencies
 ==========================
@@ -58,7 +50,7 @@ To have the Webpack development server proxy our requests to our Server, we just
 
 Finally
 =============
-Boot both the Server and Client apps, hit it <code>"proxy": "http://localhost:8080/"</code> on your browser and you're in the business. Enter any username and click Start Chatting button to enter into the chat room. If no one is available in the chat room, then you can open the app in two tabs, login with different usernames and start sending messages. You will see the below chat room UI
+Boot both the Server and Client apps, hit it <code>"proxy": "http://localhost:3000/"</code> on your browser and you're in the business. Enter any username and click Start Chatting button to enter into the chat room. If no one is available in the chat room, then you can open the app in two tabs, login with different usernames and start sending messages. You will see the below chat room UI
 
 ![alt text](https://github.com/RatneshChauhan/springboot-react-chatroom/blob/master/Client/chat-box.png "Chat Room")
 
