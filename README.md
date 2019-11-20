@@ -1,4 +1,4 @@
-# springboot-react-chatroom
+# springboot and react group chat and private chat
  Using Spring Boot with WebSocket API  and React with Material-UI to build a simple group and private chat application
  
  Features
