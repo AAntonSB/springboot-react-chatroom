@@ -7,6 +7,7 @@
 * Group chat  
 * Private messaging (user to user instant messaging)
 * Presence tracking and push notifications when users join / leave / send messages
+* Room members list with online/offline status
 
 Notes
 ==========
