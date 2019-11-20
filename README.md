@@ -44,7 +44,7 @@ React Setup Prerequisites and Dependencies
 Setting up the proxy
 =========================
 
-To have the Webpack development server proxy our requests to our Server, we just need to add the following line to package.json:
+To have the Webpack development server proxy our requests to our Server, we have just added the following line of code to our package.json:
 
 <code>"proxy": "http://localhost:8080/", </code>
 
