@@ -5,8 +5,15 @@
 ===============
 * User login/logout
 * Group chat  
-* Private messaging
+* Private messaging (user to user instant messaging)
 * Presence tracking and push notifications when users join / leave / send messages
+
+Notes
+==========
+* Chat messages are NOT persisted to the database. I would add that functionality later.
+* Message Broker: In-memory 
+* WebSocket messaging protocol: Stomp
+* WebSocket handler: Sock.js 
 
 
  Server Configuration: 
