@@ -50,7 +50,7 @@ To have the Webpack development server proxy our requests to our Server, we have
 
 Finally
 =============
-Boot both the Server and Client apps, hit it <code>"proxy": "http://localhost:3000/"</code> on your browser and you're in the business. Enter any username and click Start Chatting button to enter into the chat room. If no one is available in the chat room, then you can open the app in two tabs, login with different usernames and start sending messages. You will see the below chat room UI
+Boot both the Server and Client apps, hit <code>"http://localhost:3000/"</code> on your browser and you're in the business. Enter any username and click Start Chatting button to enter into the chat room. If no one is available in the chat room, then you can open the app in two tabs, login with different usernames and start sending messages. You will see the below chat room UI
 
 ![alt text](https://github.com/RatneshChauhan/springboot-react-chatroom/blob/master/Client/chat-box.png "Chat Room")
 
