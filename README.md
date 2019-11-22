@@ -1,7 +1,7 @@
 # springboot and react group chat and private chat
  Using Spring Boot with WebSocket API  and React with Material-UI to build a simple group and private chat application
  
- Features
+Features
 ===============
 * User login/logout
 * Group chat  
@@ -16,11 +16,7 @@ Notes
 * WebSocket messaging protocol: Stomp
 * WebSocket handler: Sock.js 
 
- Server Configuration: 
- ========================
-Spring boot configurations to configure websocket connection with STOMP and sockJS
- 
-Spring Boot Setup Prerequisites 
+Server: Spring Boot Setup Prerequisites 
 ======================
  * JDK 8
  * Spring Boot
@@ -28,11 +24,7 @@ Spring Boot Setup Prerequisites
  * Tomcat(embedded with Spring) 
  * Maven
 
-Client Configuration: 
-========================
-The front end of the application has been developed using react js components.
-
-React Setup Prerequisites and Dependencies
+Client: React Setup Prerequisites and Dependencies
 ==========================
 * Node
 * NPM
