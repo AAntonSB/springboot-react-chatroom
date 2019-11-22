@@ -1,52 +1,30 @@
-# springboot-react-chatroom
- Using Spring Boot with WebSocket API  and React with Material-UI to build a simple group chat application
+# springboot and react group chat and private chat
+ Using Spring Boot with WebSocket API  and React with Material-UI to build a simple group and private chat application
  
- Server Configuration: 
- ========================
-Spring boot configurations to configure websocket connection with STOMP and sockJS
- 
- WebSocket 
- ============
- WebSocket is a communication protocol that makes it possible to establish a two-way communication channel between a server and a  client.
- WebSocket works by first establishing a regular HTTP connection with the server and then upgrading it to a bidirectional websocket       connection by sending an Upgrade header.
- 
- WebSocket Configuration
- ==========================
- * The first step is to configure the websocket endpoint and message broker for which <code>@EnableWebSocketMessageBroker</code> is used to enable our WebSocket server. I have implemented <code>WebSocketMessageBrokerConfigurer</code> interface and provide implementation for some of its methods to configure the websocket connection.
- * SockJS has been used to enable fallback options for browsers that don’t support websocket.
- *  Spring frameworks STOMP implementation has been used. STOMP stands for Simple Text Oriented Messaging Protocol. It is a messaging    protocol that defines the format and rules for data exchange because WebSocket is just a communication protocol. It doesn’t define things like - How to send a message only to users who are subscribed to a particular topic, or how to send a message to a particular user. We need STOMP for these functionalities.
- * A message broker has been configured that will be used to route messages from one client to another.I have enabled a simple in-memory  message broker. But you’re free to use any other full-featured message broker like RabbitMQ or ActiveMQ.
- 
-WebSocket Event Listeners
-============================
-I have used event listeners to listen for socket connect and disconnect events so that we can log these events and also broadcast them when a user joins or leaves the chat room.
+Features
+===============
+* User login/logout
+* Group chat  
+* Private messaging (user to user instant messaging)
+* Presence tracking and push notifications when users join / leave / send messages
+* Room members list with online/offline status
 
-Spring Boot Setup Prerequisites 
+Notes
+==========
+* Chat messages are NOT persisted to the database. I would add that functionality later when the time permits.
+* Message Broker: In-memory 
+* WebSocket messaging protocol: Stomp
+* WebSocket handler: Sock.js 
+
+Server: Spring Boot Setup Prerequisites 
 ======================
- JDK 8
- 
- Spring Boot
- 
- STS or Eclipse  
- 
- Tomcat(embedded with Spring) 
- 
- Maven
+ * JDK 8
+ * Spring Boot
+ * STS or Eclipse  
+ * Tomcat(embedded with Spring) 
+ * Maven
 
-
-Client Configuration: 
-========================
-The front end of the application has been developed using react js components.
-
-* The connect() function uses SockJS and stomp client to connect to the /ws endpoint that we configured in Spring Boot.
-
-* Upon successful connection, the client subscribes to /topic/public destination and tells the user’s name to the server by sending a    message to the /app/addUser destination.
-
-* The stompClient.subscribe() function takes a callback method which is called whenever a message arrives on the subscribed topic.
-
-* Rest of the code is used to display and format the messages on the screen.
-
-React Setup Prerequisites and Dependencies
+Client: React Setup Prerequisites and Dependencies
 ==========================
 * Node
 * NPM
@@ -58,22 +36,13 @@ React Setup Prerequisites and Dependencies
 Setting up the proxy
 =========================
 
-To have the Webpack development server proxy our requests to our Server, we just need to add the following line to package.json:
+To have the Webpack development server proxy our requests to our Server, we have just added the following line of code to our package.json:
 
 <code>"proxy": "http://localhost:8080/", </code>
 
-Features
-===============
-* Built with Spring Boot and Reactjs
-* User login
-* Chat message broadcasting (no private message and chat history support for now, I may implement it later in free time)
-* Presence tracking and sending notifications when users join / leave
-* Broadcast notifications when users are typing
-
-
 Finally
 =============
-Boot both the Server and Client apps and you're in the business. Enter any username and click Start Chatting button to enter into the chat room. If no one is available in the chat room, then you can open the app in two tabs, login with different usernames and start sending messages. You will see the below chat room UI
+Boot both the Server and Client apps, hit <code>"http://localhost:3000/"</code> on your browser and you're in the business. Enter any username and click Start Chatting button to enter into the chat room. If no one is available in the chat room, then you can open the app in two tabs, login with different usernames and start sending messages. You will see the below chat room UI
 
 ![alt text](https://github.com/RatneshChauhan/springboot-react-chatroom/blob/master/Client/chat-box.png "Chat Room")
 
