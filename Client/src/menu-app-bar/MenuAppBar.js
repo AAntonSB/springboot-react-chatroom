@@ -29,10 +29,10 @@ export default class MenuAppBar extends React.Component {
         openNotifications: false,
         anchorEl: null,
         privateMessages: [],
-        isPrivateMessage:false
+        isPrivateMessage: false
       };
 
-      this.connect()
+    this.connect()
   }
 
   connect = () => {
@@ -56,9 +56,9 @@ export default class MenuAppBar extends React.Component {
   }
 
   onConnected = () => {
-    
+
     // Subscribing to the private topic
-    stompClient.subscribe('/user/'+this.props.username.toString().toLowerCase()+'/reply', this.onMessageReceived);
+    stompClient.subscribe('/user/' + this.props.username.toString().toLowerCase() + '/reply', this.onMessageReceived);
     // Registering user to server as a private chat user
     stompClient.send('/app/addPrivateUser', {}, JSON.stringify({ sender: this.props.username, type: 'JOIN' }))
   }
@@ -101,14 +101,14 @@ export default class MenuAppBar extends React.Component {
   handleOpenNotifications = () => {
     this.setState({
       openNotifications: true,
-      isPrivateMessage:false
+      isPrivateMessage: false
     })
   }
 
   handleOpenPrivateMessages = () => {
     this.setState({
       openNotifications: true,
-      isPrivateMessage:true
+      isPrivateMessage: true
     })
   }
 
@@ -136,7 +136,7 @@ export default class MenuAppBar extends React.Component {
     const open = Boolean(anchorEl);
 
     return (
-      <div className="">
+      <div >
         <AppBar position="static" style={{ background: 'black' }}>
           <Toolbar>
             <IconButton className="" color="inherit" aria-label="Menu">
@@ -146,17 +146,14 @@ export default class MenuAppBar extends React.Component {
               {this.props.username} <span> </span> <span className="status green"></span>
             </Typography>
             {auth && (
-              <div>
-                <IconButton
-                  aria-owns={open ? 'menu-appbar' : null}
-                  aria-haspopup="true"
-                  onClick={this.handleMenu}
-                  color="inherit"
-                >
-                  <AccountCircle />
-                </IconButton>
-
-              </div>
+              <IconButton
+                aria-owns={open ? 'menu-appbar' : null}
+                aria-haspopup="true"
+                onClick={this.handleMenu}
+                color="inherit"
+              >
+                <AccountCircle />
+              </IconButton>
             )}
           </Toolbar>
           <div>
@@ -164,13 +161,13 @@ export default class MenuAppBar extends React.Component {
             <Badge className="badge" badgeContent={this.props.roomNotification.length} color="secondary" onClick={this.handleOpenNotifications}>
               <a href="#"> <BellIcon active={this.props.bellRing} animate={this.props.bellRing} color="white" width="25px" /></a>
             </Badge>
-            <Badge className="badgeMessage" badgeContent={this.state.privateMessages!=null?this.state.privateMessages.length:0} color="secondary" onClick={this.handleOpenPrivateMessages}>
-              <a href="#"><img src={msgImage} alt="Private messages" className="avatar" style = {{width: '48px', height: '46px'}} /></a>
+            <Badge className="badgeMessage" badgeContent={this.state.privateMessages != null ? this.state.privateMessages.length : 0} color="secondary" onClick={this.handleOpenPrivateMessages}>
+              <a href="#"><img src={msgImage} alt="Private messages" className="avatar" style={{ width: '48px', height: '46px' }} /></a>
             </Badge>
 
             <Notifications open={this.state.openNotifications} handleClose={this.handleCloseNotifications}
-              notifications={this.props.roomNotification} roomMessages={this.props.broadcastMessage} 
-              privateMessages = {this.state.privateMessages} isPrivateMessage = {this.state.isPrivateMessage}/>
+              notifications={this.props.roomNotification} roomMessages={this.props.broadcastMessage}
+              privateMessages={this.state.privateMessages} isPrivateMessage={this.state.isPrivateMessage} />
           </div>
         </AppBar>
         <Menu

@@ -70,7 +70,7 @@ h2,h3,h5,h6{
     position: relative;
     height: 556px;
     max-height: 495px;
-    width: 900px ;
+    width: 1262px ;
 	background-color: white;
 	list-style-type: none;
 }
@@ -174,12 +174,12 @@ h2,h3,h5,h6{
     border-radius: 50%;
 }
 .badge{
-	margin-top: -85px;
+	margin-top: -122px;
     margin-left: 1070px;
 }
 
 .badgeMessage{
-	margin-top: -122px;
+	margin-top: -160px;
     margin-left: 1000px;
 }
 #usernameDialogNotifications{

@@ -4,6 +4,7 @@ import Menu from '../menu-app-bar/MenuAppBar'
 import Aside from '../aside/Aside'
 import Login from '../login/Login'
 import Footer from '../footer/Footer'
+import Paper from '@material-ui/core/Paper';
 
 // Styling
 import './ChatMessageBox.css';
@@ -59,7 +60,7 @@ class ChatMessageBox extends Component {
 
     // Subscribing to the public topic
     stompClient.subscribe('/topic/pubic', this.onMessageReceived);
-    
+
     // Registering user to server as a public chat user
     stompClient.send("/app/addUser", {}, JSON.stringify({ sender: this.state.username, type: 'JOIN' }))
 
@@ -192,60 +193,65 @@ class ChatMessageBox extends Component {
   render() {
 
     return (
-      <div id="container">
+      <div>
         {this.state.channelConnected ?
           (
             <div>
+
               <Menu roomNotification={this.state.roomNotification}
                 bellRing={this.state.bellRing}
                 openNotifications={this.state.openNotifications}
                 username={this.state.username}
                 broadcastMessage={this.state.broadcastMessage} />
 
-              <Aside roomNotification={this.state.roomNotification}
-                openNotifications={this.state.openNotifications}
-                username={this.state.username}
-                broadcastMessage={this.state.broadcastMessage} />
+              <Paper elevation={5}>
+                <Aside roomNotification={this.state.roomNotification}
+                  openNotifications={this.state.openNotifications}
+                  username={this.state.username}
+                  broadcastMessage={this.state.broadcastMessage} />
 
-
-              <ul id="chat" ref="messageBox">
-                {/* {this.state.broadcastMessage.length ?
+              </Paper>
+              <Paper elevation={5}>
+                <ul id="chat" ref="messageBox">
+                  {/* {this.state.broadcastMessage.length ?
                   [<div id="history"><div id="old" onClick={this.fetchHostory}>Older</div><hr /><div id="today">Today</div></div>] : ""} */}
-                {this.state.broadcastMessage.map((msg, i) =>
-                  this.state.username === msg.sender ?
-                    <li className="you" key={i}>
-                      <div className="entete">
-                        <h2><img src={userImage} alt="Default-User" className="avatar" />
+                  {this.state.broadcastMessage.map((msg, i) =>
+                    this.state.username === msg.sender ?
+                      <li className="you" key={i}>
+                        <div className="entete">
+                          <h2><img src={userImage} alt="Default-User" className="avatar" />
+                            <span> </span>
+                            <span className="sender"> {msg.sender} ~ (You)</span></h2>
                           <span> </span>
-                          <span className="sender"> {msg.sender} ~ (You)</span></h2>
-                        <span> </span>
-                        {/* <span className="status green"></span> */}
-                      </div>
-                      <div className="triangle"></div>
-                      <div className="message">
-                        {msg.message}
-                      </div>
-                      <div><h3>{msg.dateTime}</h3></div>
-                    </li>
-                    :
-                    <li className="others">
-                      <div className="entete">
-                        {/* <span className="status blue"></span> */}
-                        <span> </span>
-                        <img src={userImage} alt="Default-User" className="avatar" />
-                        <span> </span>
-                        <span className="sender">{msg.sender}</span>
-                      </div>
-                      <div className="triangle"></div>
-                      <div className="message">
-                        {msg.message}
-                      </div>
-                      <div><h3>{msg.dateTime}</h3></div>
-                    </li>
-                )}
-              </ul>
-              <Footer sendMessage={this.sendMessage} privateMessage={false} />
+                          {/* <span className="status green"></span> */}
+                        </div>
+                        <div className="triangle"></div>
+                        <div className="message">
+                          {msg.message}
+                        </div>
+                        <div><h3>{msg.dateTime}</h3></div>
+                      </li>
+                      :
+                      <li className="others">
+                        <div className="entete">
+                          {/* <span className="status blue"></span> */}
+                          <span> </span>
+                          <img src={userImage} alt="Default-User" className="avatar" />
+                          <span> </span>
+                          <span className="sender">{msg.sender}</span>
+                        </div>
+                        <div className="triangle"></div>
+                        <div className="message">
+                          {msg.message}
+                        </div>
+                        <div><h3>{msg.dateTime}</h3></div>
+                      </li>
+                  )}
+                </ul>
 
+
+                <Footer sendMessage={this.sendMessage} privateMessage={false} />
+              </Paper>
             </div>
 
 

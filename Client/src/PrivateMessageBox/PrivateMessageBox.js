@@ -8,8 +8,6 @@ import Button from '@material-ui/core/Button';
 import Footer from '../footer/Footer'
 import userImage from '../userImage.png';
 
-
-
 var stompClient = null;
 class PrivateMessageBox extends Component {
 
@@ -20,12 +18,12 @@ class PrivateMessageBox extends Component {
       open: this.props.open,
       broadcastMessage: [],
       openMessageBox: false,
-      showFooter:false
+      showFooter: false
     };
   };
 
   connect = () => {
- 
+
     if (this.props.otherUser) {
 
       const Stomp = require('stompjs')
@@ -38,24 +36,21 @@ class PrivateMessageBox extends Component {
 
       stompClient.connect({}, this.onConnected, this.onError);
 
-      //  this.setState({
-      //    username: this.props.youser,
-      //  })
     }
   }
 
   onConnected = () => {
 
     // Subscribing to the private topic
-    stompClient.subscribe('/user/'+this.props.otherUser.toString().toLowerCase()+'/reply', this.onMessageReceived);
-    
+    stompClient.subscribe('/user/' + this.props.otherUser.toString().toLowerCase() + '/reply', this.onMessageReceived);
+
     // Registering user to server as a private chat user
     stompClient.send('/app/addPrivateUser', {}, JSON.stringify({ sender: this.props.otherUser, type: 'JOIN' }))
 
     this.setState({
-         showFooter: true,
-        })
-    
+      showFooter: true,
+    })
+
   }
 
   sendMessage = (type, value) => {
@@ -68,16 +63,13 @@ class PrivateMessageBox extends Component {
         type: type
 
       };
-      // send private message
       stompClient.send('/app/sendPrivateMessage', {}, JSON.stringify(chatMessage));
 
     }
   }
 
   onMessageReceived = (payload) => {
-
     var message = JSON.parse(payload.body);
-
     if (message.type === 'CHAT') {
       this.state.broadcastMessage.push({
         message: message.content,
@@ -102,19 +94,18 @@ class PrivateMessageBox extends Component {
         autoScrollBodyContent={true}
 
       >
-        <DialogTitle id="responsive-dialog-title">{"Send Private Message To:"}
+        <DialogTitle id="responsive-dialog-title">{"Send Private Message"}
         </DialogTitle>
         <DialogContent>
           <DialogContentText>
-
-          <div> <img src={userImage} alt="Default-User" id="userImage" /></div>
-                                <div id="usernameDialogNotifications">
-                                    <h5>{this.props.otherUser}</h5>
-                                </div>
+            <div> <img src={userImage} alt="Default-User" id="userImage" /></div>
+            <div id="usernameDialogNotifications">
+              <h5>{this.props.otherUser}</h5>
+            </div>
             <div>
               <div><h5>Sent messages by You to {this.props.otherUser}</h5></div>
               {this.state.broadcastMessage.map((msg, i) =>
-                <div>{this.props.youser === msg.sender?msg.message:""}</div>
+                <div>{this.props.youser === msg.sender ? msg.message : ""}</div>
 
               )}
 
@@ -122,12 +113,13 @@ class PrivateMessageBox extends Component {
           </DialogContentText>
         </DialogContent>
 
+       
+        {this.state.showFooter ? <Footer sendMessage={this.sendMessage} privateMessage={true} connect={this.connect} /> : "Connecting to " + this.props.otherUser + "..."}
         <DialogActions>
           <Button onClick={this.props.handleClose} color="primary">
             Close
                  </Button>
         </DialogActions>
-       {this.state.showFooter ?<Footer sendMessage={this.sendMessage} privateMessage={true} connect={this.connect} />:"Connecting to " + this.props.otherUser+"..."}
       </Dialog>
     </div>
   }
