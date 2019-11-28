@@ -15,6 +15,8 @@ Notes
 * Message Broker: In-memory 
 * WebSocket messaging protocol: Stomp
 * WebSocket handler: Sock.js 
+* Browsers: Chrome, IE10+
+* UI: Material UI 1.2.2
 
 Server: Spring Boot Setup Prerequisites 
 ======================
@@ -49,8 +51,6 @@ Boot both the Server and Client apps, hit <code>"http://localhost:3000/"</code> 
 Author
 =============
 Ratnesh Chauhan, Full Stack Developer
-
-Note: Everything is tested on Windows environment on Laptop device
 
 License
 ==============
