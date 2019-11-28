@@ -16,7 +16,6 @@ Notes
 * WebSocket messaging protocol: Stomp
 * WebSocket handler: Sock.js 
 * Browsers: Chrome, IE10+
-* UI: Material UI 1.2.2
 
 Server: Spring Boot Setup Prerequisites 
 ======================
